@@ -11,3 +11,15 @@ Content-Type: application/json
   "url": "https://fullstackopen.com/en/part4/structure_of_backend_application_introduction_to_testing",
   "likes": 8
 }
+
+###
+GET http://localhost:3003/api/users
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "name@gmail.com",
+  "name": "John Doe",
+  "password": "123"
+}
