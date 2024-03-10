@@ -64,7 +64,7 @@ describe('testing POST', () => {
   test('valid user is added', async () => {
     const validUser = { username: 'inigo5', name: 'inigo5', password: '123' }
     const response = await api.post('/api/users').send(validUser).expect(201)
-    expect(response.body.id).toBeDefined();
+    expect(response.body.id).toBeDefined()
     const { body } = await api.get('/api/users').expect(200)
     expect(body.length).toBe(initialUsers.length + 1)
   })
