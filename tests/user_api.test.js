@@ -24,6 +24,7 @@ const initialUsers = [
   }
 ]
 
+
 beforeEach(async () => {
   await User.deleteMany({})
 

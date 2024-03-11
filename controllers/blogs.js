@@ -3,6 +3,8 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 
+
+
 blogsRouter.get('/', async (request, response) => {
 
 
@@ -12,8 +14,10 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
+
+  const user = await User.findById(request.user.id)
+
   const { author, title, url } = request.body
-  const user = await User.findOne({})
   const blog = new Blog(
     { author: author, title: title, url: url, user: user.id })
   const createdBlog = await blog.save()
@@ -23,7 +27,16 @@ blogsRouter.post('/', async (request, response) => {
 
 })
 blogsRouter.delete('/:id', async (request, response) => {
-  const result = await Blog.findByIdAndDelete(request.params.id)
+
+
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(404).json({ error: 'Resource not found' })
+  }
+  if (blog.user.toString() !== request.user.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const result = await Blog.deleteOne({ _id: request.params.id })
   if (!result) {
     return response.status(400).end()
   }
